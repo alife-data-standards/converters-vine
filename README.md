@@ -1,9 +1,13 @@
-# converters-vine
+# Standard phylogeny to Vine converter
+
+[![Build Status](https://travis-ci.org/alife-data-standards/converters-vine.svg?branch=master)](https://travis-ci.org/alife-data-standards/converters-vine)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c5cac40b322a484592b23e44fbfb8ba9)](https://www.codacy.com/app/ALife-Data-Standards/converters-vine?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=alife-data-standards/converters-vine&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/c5cac40b322a484592b23e44fbfb8ba9)](https://www.codacy.com/app/ALife-Data-Standards/converters-vine?utm_source=github.com&utm_medium=referral&utm_content=alife-data-standards/converters-vine&utm_campaign=Badge_Coverage)
 
 Vine is a tool developed by UBER and can be found in their github for deep-neuroevolution in the visual_inspector directory:
 https://github.com/uber-research/deep-neuroevolution/ and then into the visual_inspector directory
 
-vine allows for the visualization of populations over time. 
+vine allows for the visualization of populations over time.
 
 vine is a stand alone python tool so you can just pull the visual inspector directory and it has everything you need to run vine
 
@@ -12,7 +16,7 @@ https://eng.uber.com/vine/
 
 this repository contains a converter from standard phylogeny to vine (this will create a directory called vineData/<BR>
 to run the converter you must have a standard phylogeny in JSON format. vine needs its data to be formatted in a particular way so we must provide three column names which will be the x and y values in the cloud plot and the "score". vine also has the concept of parents and offspring. For each time step (i.e. generation) there is one parent (think of this as the best organism) and a collection of offspring (the rest of the population). In order to determine which organism should be the parent in each time step a parentTrait must also be provided. Please see the usage below.
-  
+
 vine assumes that its data is in sequential order so if your data was on 10s (ever 10 generations) and was for example 0 to 100 on 10s, this would be remapped by the converter to 0 to 10 on 1s.
 
 to use vine you can run the following line:
