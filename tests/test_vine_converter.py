@@ -23,3 +23,4 @@ def test_StdToVineConversion():
             expected_f = os.path.join(expected_d, fname)
             generated_f = os.path.join(generated_d, fname)
             assert filecmp.cmp(expected_f, generated_f)
+    subprocess.run("rm -rf vineData", shell=True)
