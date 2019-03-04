@@ -1,0 +1,42 @@
+{
+ "0": {
+  "id": 0,
+  "ancestor_list": ["NONE"],
+  "origin_time": 0,
+  "fitness": 10,
+  "trait1": 10,
+  "trait2": 10
+ },
+ "1": {
+  "id": 1,
+  "ancestor_list": ["0"],
+  "origin_time": 1,
+  "fitness": 20,
+  "trait1": 20,
+  "trait2": 20
+ },
+ "2": {
+  "id": 2,
+  "ancestor_list": ["1"],
+  "origin_time": 2,
+  "fitness": 30,
+  "trait1": 30,
+  "trait2": 30
+ },
+ "3": {
+  "id": 3,
+  "ancestor_list": ["2"],
+  "origin_time": 3,
+  "fitness": 40,
+  "trait1": 40,
+  "trait2": 40
+ },
+ "4": {
+  "id": 4,
+  "ancestor_list": ["3"],
+  "origin_time": 4,
+  "fitness": 50,
+  "trait1": 50,
+  "trait2": 50
+ }
+}
