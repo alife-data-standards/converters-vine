@@ -1,8 +1,8 @@
 import json
 import csv
 import os
-
 import argparse
+
 parser = argparse.ArgumentParser(description='Converts a JSON file in ALDS format to directories and files reuired for vine.')
 parser.add_argument('-path', type=str, metavar='PATH', default = '',  help='path to files - default : none (will read files in current directory)', required=False)
 parser.add_argument('-file', type=str, metavar='FILE NAME', default = 'lineageData.csv',  help='name of data file !! MUST BE IN JSON FORMAT !! default : lineage.json', required=False)
@@ -33,16 +33,16 @@ randomOrg = next(iter(data.values()))
 if (args.parentTrait not in randomOrg):
     print('parentTrait was not found in the supplied data. exiting...')
     exit(1)
-	
+
 for trait in args.traits:
     if trait not in randomOrg:
         print('trait "'+trait+'" was not found in the supplied data. exiting...')
         exit(1)
-        
+
 if args.updateColumnName not in randomOrg:
     print('updateColumnName "'+args.updateColumnName+'" was not found in the supplied data. exiting...')
     exit(1)
-    
+
 # convert data so that all trait data is float
 # also get lastTime (last time we find in the update field
 largestUpdate = -1
@@ -66,22 +66,22 @@ if (args.parentMethod == 'LOD'):
             exit(1)
         if int(data[orgID][args.updateColumnName]) == largestUpdate: # if this org is as old as largestUpdate, add to lastGeneration
             lastGeneration.append(orgID)
-    
+
     lastLOD_ID = lastGeneration[0] # assume first in lastGeneration is best
     for orgID in lastGeneration: # for each org in last generation, see if they are better
         if data[orgID][args.parentTrait] > data[lastLOD_ID][args.parentTrait]:
             lastLOD_ID = orgID
-    
+
     print('    found last org on LOD with ID:',lastLOD_ID,'at time',largestUpdate)
-    
+
     LOD_trace_ID = lastLOD_ID
-    while LOD_trace_ID != '-1':
+    while LOD_trace_ID != 'none':
         parentsIDs.append(LOD_trace_ID)
         LOD_trace_ID = str(data[LOD_trace_ID]['ancestor_list'][0])
     parentsIDs.reverse()
     if args.verbose:
         print('identified LOD parents (list of orgIDs):',parentsIDs)
-        
+
 elif (args.parentMethod == 'MAX'):
     print('generating MAX parents list...')
     parentsMap = {} # map format is time:[orgID,parentTraitValue] where orgID has highest parentTrait for that time
@@ -91,7 +91,7 @@ elif (args.parentMethod == 'MAX'):
             parentsMap[data[orgID][args.updateColumnName]]=[orgID,float(data[orgID][args.parentTrait])]
         elif float(data[orgID][args.parentTrait]) > parentsMap[data[orgID][args.updateColumnName]][1]: # else if this orgs parentTrait > the parentTrait value currently in parentsMap for this time
             parentsMap[data[orgID][args.updateColumnName]]=[orgID,float(data[orgID][args.parentTrait])] # overwrite value in parentsMap
-            
+
     sortedKeys = sorted([int(x) for x in list(parentsMap.keys())])
     for k in sorted([int(x) for x in list(parentsMap.keys())]): # in order starting with the smallest key, create parents list
        parentsIDs.append( parentsMap[k][0] ) # append the orgID (in position 0) for time k
@@ -122,7 +122,7 @@ while currentParentIndex < len(parentsIDs):
             offspringCollection.append(data[orgID])
             if args.verbose:
                 print('at step:',currentParentIndex,'time:',currentParentTime,'parent:',currentParentID,'adding:',orgID)
-    
+
     # save parent to parent file and offspring to offspring file
     outPath = 'vineData/snapshots/snapshot_gen_'+str(currentParentIndex).zfill(4)
     parentOutFile = 'snapshot_parent_'+str(currentParentIndex).zfill(4)+'.dat'
@@ -139,12 +139,12 @@ while currentParentIndex < len(parentsIDs):
             for trait in args.traits:
                 outLine += str(offspring[trait]) + ' '
             file.write(outLine[:-1]+'\n')
-       
+
     currentParentIndex+=1
 
 print('...output has been saved into vineData/...')
 
-exit(1) 
+exit(1)
 
 
 
@@ -158,7 +158,7 @@ exit(1)
 
 
 
-	
+
 parentData = {}
 birthData = {}
 lastBirthDate = -1
@@ -186,11 +186,11 @@ lastGenerationancestor_list = {}
 for ID in birthData:
     if birthData[ID] == lastBirthDate:
         lastGenerationancestor_list[ID] = parentData[ID]
-        
+
 parentList = []
 
 for ID in lastGenerationancestor_list:
-    parentList.append(ID);
+    parentList.append(ID)
 
 while 1:
     if(args.verbose):
@@ -209,7 +209,7 @@ while 1:
         for parent in parentData[ID]:
             if parent not in newParentList:
                 newParentList.append(parent)
-    parentList = newParentList;
+    parentList = newParentList
     if(birthData[parentList[0]] == -1):
         print('reached organism with time of birth -1. There is no MRCA(s)')
         exit(1)
