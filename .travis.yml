@@ -11,4 +11,3 @@ script:
   - pytest --cov='stdPhylogeny2vine'
   - coverage xml
   - python-codacy-coverage -r coverage.xml
-  - rm -rf vineData
